@@ -10,14 +10,21 @@ description: Find stocks that tend to snap back to their average, or pairs of st
 - Single stocks that return to their own average: `start_mr_scan`.
 - Pairs of stocks that move together: `start_pairs_scan`.
 
-If the user did not name an index, ask: the S&P 500 is the widest, the NASDAQ 100 and the Dow 30 are narrower. Use three years of daily history unless the user says otherwise. `describe_capability` and `list_stochastic_methods` help when the request needs a particular filter or model.
+If the user did not name an index, ask: the S&P 500 is the widest, the NASDAQ 100 and the Dow 30 are narrower. Use three years of daily history unless the user says otherwise.
+
+Each filter is `{"type": ..., "params": {...}}`, with the scanner's own setting names. For single stocks: `hurst` (`max_h`, default 0.45; `window`), `halflife` (`min_hl`, `max_hl` in days, default 5 to 100), `adf` (`max_pvalue`, default 0.05), `kpss` (`min_pvalue`, default 0.05), `variance_ratio`, `autocorr`, `volatility` and `liquidity` (`min_dv`, average daily dollar volume in millions). For pairs: `correlation` (`min_corr`), `cointegration` (`max_pvalue`), `spread_halflife`, `beta_stability`, `spread_hurst`, `johansen`. Leave a setting out to keep its default; a name the scanner does not know is refused with the filter's settings.
 
 ## 2. Run it and read it
 
-Poll the matching progress tool until it finishes; its last answer carries the result (or call `summarize_workflow` with the task id). QuanterLab says how many names passed; the names themselves are in the full report on QuanterLab, behind the `dashboard_url`. Never make up names that passed.
+Poll the matching progress tool until it finishes; its last answer carries the result (or call `summarize_workflow` with the task id). The result's `candidates` block holds:
 
-If very few or none passed, say the filters were probably too strict for that index and offer a looser scan, rather than presenting an empty result as a finding.
+- `filters`: each filter's rule as the scanner applied it, and how many names passed it out of how many that reached it;
+- `names`: up to ten, the ones that passed every filter first, then the closest misses, ranked, each with its own statistics rounded and, for a miss, the filter that stopped it.
+
+Name the stocks that passed. When none or few passed, name the closest misses as misses, say which filter stopped most of them, and offer to loosen that filter. Quote the statistics as they come, never add precision, and never name a stock that is not in the list: the full table is in the report behind `dashboard_url`.
+
+When the user asks to loosen the filters and scan again, compare the new `filters` rules with the old ones before saying the rerun was looser.
 
 ## 3. Test one
 
-A scan finds candidates; only a test shows whether trading one would have worked. Offer to test a candidate the user picks from the report with `start_stochastic_backtest`, for example an Ornstein-Uhlenbeck mean-reversion model (`list_stochastic_methods` lists the models and their settings). Report that test the way the backtest-a-rule skill does: the answer first, one caution, the link.
+A scan finds candidates; only a test shows whether trading one would have worked. Offer to test the candidate the user picks with `start_stochastic_backtest`, for example an Ornstein-Uhlenbeck mean-reversion model (`list_stochastic_methods` lists the models and their settings). Report that test the way the backtest-a-rule skill does: the answer first, one caution, the link.

@@ -9,7 +9,7 @@ A backtest whose settings were picked by looking at the same history will look b
 
 ## 1. Set it up
 
-- Start from the user's rule as the template, in the same shape as a backtest.
+- Start from the user's rule as the template, in the same shape as a backtest, with conditions written `{"column": ..., "operator": ..., "value": ...}`.
 - Pick the two settings the user would actually tune, for example the RSI length from 7 to 21 and the buy level from 20 to 40. If it is not clear which two matter, ask.
 - Defaults: five years of daily bars, tune on about a year (252 sessions), test on the next quarter (63 sessions), three steps per setting. Keep the grid small; a large grid finds noise.
 - A rule that trades rarely, such as a moving-average or MACD crossover, needs long windows: shorter ones leave most test windows without a single trade, and the test then says little.
@@ -21,8 +21,8 @@ Call `start_walkforward` and poll `get_walkforward_progress`. Its last answer ca
 ## 3. Report it
 
 - Answer first: did it hold up on the years it never saw?
-- When the result carries figures, use them: the return and Sharpe ratio on those windows against the Sharpe ratio when tuned, and holding the stock over the same stretch.
-- Say how many windows made money and how many did not trade at all. When most did not trade, say the test says little, and suggest longer windows or a rule that trades more often.
+- When the result carries figures, use them: the return and Sharpe ratio on those windows against the Sharpe ratio when tuned, and holding the stock over the same stretch. The result also says which did better over those years, the rule or simply holding; say it.
+- Say how many windows made money and how many did not trade at all. When most did not trade, say the test says little, and suggest longer windows or a rule that trades more often. When the result says it never traded at all, the run says nothing about the rule yet: check the rule with a plain backtest first.
 - If it did not hold up, say so plainly: the tuned result was probably fitted to its own history. That is a useful answer, not a failure of the tool.
 - Give the link to the full report (`dashboard_url`) for the window-by-window detail.
 

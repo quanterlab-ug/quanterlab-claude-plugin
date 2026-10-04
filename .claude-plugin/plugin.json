@@ -1,7 +1,7 @@
 {
   "name": "quanterlab",
   "displayName": "QuanterLab",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Backtest trading rules, check them with walk-forwards, scan for candidates, run your saved canvas strategies and read QuanterLab's published studies, through your QuanterLab account.",
   "author": {
     "name": "QuanterLab",

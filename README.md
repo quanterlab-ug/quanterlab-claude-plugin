@@ -17,7 +17,7 @@ QuanterLab is a quant research platform for testing trading strategies on histor
 
 ## Data
 
-The plugin runs nothing on your computer and stores nothing. Everything goes through the connector to your QuanterLab account at quanterlab.com: the rules you ask to test, the tickers and their settings, and your searches of the published studies. Runs happen on QuanterLab's servers on past daily data. Results come back as summaries in words, with a few rounded figures for runs of a year or longer, and the full reports stay on quanterlab.com.
+The plugin runs nothing on your computer and stores nothing. Everything goes through the connector to your QuanterLab account at quanterlab.com: the rules you ask to test, the tickers and their settings, and your searches of the published studies. Runs happen on QuanterLab's servers on past daily data. Results come back as summaries in words, with a few rounded figures for runs of a year or longer; a scan names the stocks or pairs that passed and the closest misses. The full reports stay on quanterlab.com.
 
 QuanterLab places no orders, connects to no broker and moves no money. Nothing it returns is investment advice.
 
