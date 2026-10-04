@@ -12,19 +12,21 @@ A backtest whose settings were picked by looking at the same history will look b
 - Start from the user's rule as the template, in the same shape as a backtest.
 - Pick the two settings the user would actually tune, for example the RSI length from 7 to 21 and the buy level from 20 to 40. If it is not clear which two matter, ask.
 - Defaults: five years of daily bars, tune on about a year (252 sessions), test on the next quarter (63 sessions), three steps per setting. Keep the grid small; a large grid finds noise.
+- A rule that trades rarely, such as a moving-average or MACD crossover, needs long windows: shorter ones leave most test windows without a single trade, and the test then says little.
 
 ## 2. Run it
 
-Call `start_walkforward`, poll `get_walkforward_progress`, then call `summarize_workflow` with the task id. If the engine refuses the size of the job, use fewer steps per setting or a shorter history, as its message says.
+Call `start_walkforward` and poll `get_walkforward_progress`. Its last answer carries the result; if it does not, call `summarize_workflow` with the task id. If the engine refuses the size of the job, use fewer steps per setting or a shorter history, as its message says.
 
 ## 3. Report it
 
 - Answer first: did it hold up on the years it never saw?
-- Say in one sentence why that matters more than the tuned backtest.
+- When the result carries figures, use them: the return and Sharpe ratio on those windows against the Sharpe ratio when tuned, and holding the stock over the same stretch.
+- Say how many windows made money and how many did not trade at all. When most did not trade, say the test says little, and suggest longer windows or a rule that trades more often.
 - If it did not hold up, say so plainly: the tuned result was probably fitted to its own history. That is a useful answer, not a failure of the tool.
 - Give the link to the full report (`dashboard_url`) for the window-by-window detail.
 
-Never quote a number the tool did not return.
+Quote the figures as they come; never add precision and never quote a number the tool did not return.
 
 ## 4. Count the tries
 

@@ -14,7 +14,7 @@ If the user did not name an index, ask: the S&P 500 is the widest, the NASDAQ 10
 
 ## 2. Run it and read it
 
-Poll the matching progress tool, then call `summarize_workflow` with the task id. QuanterLab says in words how large the set that passed is; the names themselves are in the full report on QuanterLab, behind the `dashboard_url`. Never make up names that passed.
+Poll the matching progress tool until it finishes; its last answer carries the result (or call `summarize_workflow` with the task id). QuanterLab says how many names passed; the names themselves are in the full report on QuanterLab, behind the `dashboard_url`. Never make up names that passed.
 
 If very few or none passed, say the filters were probably too strict for that index and offer a looser scan, rather than presenting an empty result as a finding.
 

@@ -20,19 +20,19 @@ Use `list_indicators` to map the user's words to indicator ids and settings, for
 
 ## 2. Run it
 
-Call `start_backtest` with the rule. Keep the defaults for position sizing and costs unless the user asks; the default charges a spread on every trade. Poll `get_backtest_progress` until it completes (usually under three minutes), then call `summarize_workflow` with the task id.
+Call `start_backtest` with the rule. Keep the defaults for position sizing and costs unless the user asks; the default charges a spread on every trade. Poll `get_backtest_progress` until it completes (usually under three minutes). Its last answer carries the result; if it does not, call `summarize_workflow` with the task id.
 
 If the call is refused, pass the refusal on in its own words. Do not retry in a loop and do not guess the reason.
 
 ## 3. Report it
 
-Lead with the answer to the question people ask first: did the rule beat simply holding the same stock over the same years? The summary says so. Then give:
+Lead with the answer to the question people ask first: did the rule beat simply holding the same stock over the same years? The result says so, and for a run of a year or longer it carries a few rounded figures: the rule's return and holding's return, the Sharpe ratio, the worst drop and the number of trades. Put the two returns side by side. Then give:
 
 - how the result reads (strong, promising, mixed or weak), and what that means in one sentence;
 - one caution that fits this result: few trades, one stock, one period, or settings picked by eye;
 - the link to the full report on QuanterLab (`dashboard_url`), where the trades and charts are.
 
-QuanterLab returns this result in words, not figures. Never invent a return, a Sharpe ratio or a drawdown. If the user wants the numbers, they are in the report.
+Quote the figures as they come; they are rounded on purpose. Never add precision and never invent a figure that is missing: a run shorter than a year carries none, and the exact figures are in the report.
 
 ## 4. Offer one next step
 
