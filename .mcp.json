@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "quanterlab": {
+      "type": "http",
+      "url": "https://quanterlab.com/mcp"
+    }
+  }
+}
