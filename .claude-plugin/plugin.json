@@ -8,6 +8,7 @@
     "url": "https://quanterlab.com"
   },
   "homepage": "https://quanterlab.com",
+  "privacyPolicyUrl": "https://quanterlab.com/privacy-policy",
   "license": "MIT",
   "keywords": ["quant", "backtesting", "walk-forward", "trading-strategies", "research"]
 }
