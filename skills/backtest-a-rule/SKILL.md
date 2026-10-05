@@ -16,13 +16,15 @@ Before running, four things have to be known. Ask only for what is missing, in o
 - the history: ten years of daily bars unless the user says otherwise (the connector runs daily bars only);
 - the direction: long only, unless the user asks for short or both.
 
+A filter that must also hold on the day the entry fires goes in the confirmation slot. The common one is a trend filter, as in Larry Connors' two-day RSI pullback, which buys only while the close is above its 200-day average: `confirmation_indicator` `{"id": "sma", "params": {"length": 200}}` and `confirmation_conditions` `[{"column": "close", "operator": ">", "value": "SMA_200"}]`.
+
 Use `list_indicators` to map the user's words to indicator ids, settings and the columns they compute, for example RSI with a length of 14 computes `RSI_14`, and MACD computes `MACD_12_26_9` (the line), `MACDh_12_26_9` (the histogram) and `MACDs_12_26_9` (the signal line). Write each condition as `{"column": ..., "operator": ..., "value": ...}`. If the rule needs something the catalog does not have, say so instead of approximating it quietly.
 
 ## 2. Run it
 
 Call `start_backtest` with the rule. Keep the defaults for position sizing and costs unless the user asks; the default charges a spread on every trade. Poll `get_backtest_progress` until it completes (usually under three minutes). Its last answer carries the result; if it does not, call `summarize_workflow` with the task id.
 
-If the call is refused, read the refusal: it names what to change (a column the strategy does not compute lists the ones it does). Fix that once and run again; pass on any other refusal in its own words, without retrying in a loop.
+A Free account has three runs a day from an assistant; Practitioner and Research run without that daily count. If the call is refused, read the refusal: it names what to change (a column the strategy does not compute lists the ones it does). Fix that once and run again; pass on any other refusal in its own words, without retrying in a loop.
 
 ## 3. Report it
 
