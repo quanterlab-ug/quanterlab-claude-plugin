@@ -11,6 +11,6 @@ QuanterLab publishes studies that test well-known investment rules. Each one is 
 2. Call `fetch` on it and answer from its text: what was tested, on which stocks and over which years, what came out, and the main limitation the paper states. Quote the paper's own headline rather than paraphrasing it into something stronger.
 3. Always give the paper's link.
 4. Keep the answer inside what the paper tested. A finding on large US stocks is not a finding on small caps or on other markets.
-5. If the user wants to see it for themselves, offer to test a similar rule with the backtest-a-rule skill, or point to the paper's "Open the platform" button, where the study's own circuit can be replayed.
+5. If the user wants to see it for themselves, offer two or three next steps to choose from: run the paper's own circuit with `start_test` and its `study` (the paper's id), which draws the circuit in the chat and runs it from the paper's last window to today; test a similar rule with the backtest-a-rule skill; or read the paper's page, where "Open in the lab" replays the study's own circuit when the page offers it.
 
 If no paper covers the topic, say so. Never answer as if one did.
