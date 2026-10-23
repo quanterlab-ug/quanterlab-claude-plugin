@@ -1,0 +1,22 @@
+{
+  "name": "quanterlab",
+  "owner": {
+    "name": "QuanterLab UG (haftungsbeschränkt)",
+    "email": "contact@quanterlab.com",
+    "url": "https://quanterlab.com"
+  },
+  "metadata": {
+    "description": "QuanterLab's plugin for Claude: backtest a rule against simply holding the stock, check it with a walk-forward, scan an index for candidates, run your saved canvas strategies and read QuanterLab's published studies."
+  },
+  "plugins": [
+    {
+      "name": "quanterlab",
+      "source": ".",
+      "description": "Backtest trading rules, check them with walk-forwards, scan for candidates, run your saved canvas strategies and read QuanterLab's published studies, through your QuanterLab account.",
+      "category": "finance",
+      "homepage": "https://quanterlab.com",
+      "repository": "https://github.com/quanterlab-ug/quanterlab-claude-plugin",
+      "license": "MIT"
+    }
+  ]
+}

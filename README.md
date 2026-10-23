@@ -2,6 +2,23 @@
 
 QuanterLab is a quant research platform for testing trading strategies on historical data. This plugin connects Claude to your QuanterLab account and teaches it a careful research routine: backtest a rule and compare it with simply holding the stock, check the result with a walk-forward, scan an index for candidates, run the strategies you saved on the QuanterLab canvas, and read QuanterLab's published studies with their links.
 
+## Install
+
+In claude.ai, Claude Desktop and Cowork, QuanterLab is in Anthropic's directory: https://claude.ai/directory/quanterlab
+
+In Claude Code, add this repository as a marketplace and install the plugin from it:
+
+```
+/plugin marketplace add quanterlab-ug/quanterlab-claude-plugin
+/plugin install quanterlab@quanterlab
+```
+
+On Claude Code 2.1.275 or later one line does both:
+
+```
+/plugin install quanterlab --marketplace quanterlab-ug/quanterlab-claude-plugin
+```
+
 ## What you can ask
 
 - "Backtest RSI(2) below 10 to buy and above 70 to sell on SPY over ten years. Did it beat just holding SPY?"
