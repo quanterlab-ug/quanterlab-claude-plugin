@@ -1,8 +1,8 @@
 {
   "name": "quanterlab",
   "displayName": "QuanterLab",
-  "version": "1.2.1",
-  "description": "Backtest trading rules, check them with walk-forwards, scan for candidates, run your saved canvas strategies and read QuanterLab's published studies, through your QuanterLab account.",
+  "version": "1.2.2",
+  "description": "Test trading rules in words, check them on years they never saw, run QuanterLab's studies, start a strategy live as a paper trade and read the published research, through your QuanterLab account.",
   "author": {
     "name": "QuanterLab",
     "url": "https://quanterlab.com"
@@ -10,7 +10,7 @@
   "homepage": "https://quanterlab.com",
   "repository": "https://github.com/quanterlab-ug/quanterlab-claude-plugin",
   "documentationUrl": "https://quanterlab.com/docs/mcp",
-  "supportUrl": "https://quanterlab.com/impressum",
+  "supportUrl": "https://quanterlab.com/contact",
   "privacyPolicyUrl": "https://quanterlab.com/privacy-policy",
   "termsOfServiceUrl": "https://quanterlab.com/terms-and-conditions",
   "license": "MIT",
