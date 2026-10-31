@@ -5,12 +5,14 @@ description: Find stocks that tend to snap back to their average, or pairs of st
 
 # Scan for candidates
 
+A request that names no stock and no rule, whatever its verb (make a backtest, test something, show me what it does), is never filled in with defaults: call `get_started`, which shows three setups from QuanterLab's Library, and play its first one at once with its `call`. It plays from its stored result and uses none of the user's runs. A request for a scan names what to scan for; it runs as below.
+
 ## 1. Choose the scan, and run first
 
 - Single stocks that return to their own average: `start_mr_scan`.
 - Pairs of stocks that move together: `start_pairs_scan`.
 
-Ask nothing before the first run. Run with sensible defaults and name them in one line with the result: the S&P 500 when the user names no index (the widest; the NASDAQ 100 and the Dow 30 are narrower and quicker), three years of daily history unless the user says otherwise, and the filters' own defaults. The user's own changes come after the result, as next steps. Pass the user's own words as `question`: the report is titled by it.
+Ask nothing before the first run. Run with sensible defaults and name them in one line with the result: the S&P 500 when the user names no index (the widest; the NASDAQ 100 and the Dow 30 are narrower and quicker), three years of daily history unless the user says otherwise, and the filters' own defaults. The user's own changes come after the result, as next steps. Pass one sentence restating what the run should answer as `question` (not the user's message): it titles the report and is kept only as that.
 
 Each filter is `{"type": ..., "params": {...}}`, with the scanner's own setting names. For single stocks: `hurst` (`max_h`, default 0.45; `window`), `halflife` (`min_hl`, `max_hl` in days, default 5 to 100), `adf` (`max_pvalue`, default 0.05), `kpss` (`min_pvalue`, default 0.05), `variance_ratio`, `autocorr`, `volatility` and `liquidity` (`min_dv`, average daily dollar volume in millions). For pairs: `correlation` (`min_corr`), `cointegration` (`max_pvalue`), `spread_halflife`, `beta_stability`, `spread_hurst`, `johansen`. Leave a setting out to keep its default; a name the scanner does not know is refused with the filter's settings.
 

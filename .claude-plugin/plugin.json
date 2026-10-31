@@ -1,7 +1,7 @@
 {
   "name": "quanterlab",
   "displayName": "QuanterLab",
-  "version": "1.2.2",
+  "version": "1.2.4",
   "description": "Test trading rules in words, check them on years they never saw, run QuanterLab's studies, start a strategy live as a paper trade and read the published research, through your QuanterLab account.",
   "author": {
     "name": "QuanterLab",

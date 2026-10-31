@@ -9,6 +9,8 @@ A backtest whose settings were picked by looking at the same history will look b
 
 ## 1. Run first
 
+A request that names no stock and no rule, whatever its verb (make a backtest, test something, show me what it does), is never filled in with defaults: call `get_started`, which shows three setups from QuanterLab's Library, and play its first one at once with its `call`. It plays from its stored result and uses none of the user's runs. A walk-forward needs a rule: when there is none in the conversation and the user names none, that is such a request.
+
 - Ask nothing before the first run. Run with sensible defaults and name them in one line with the result; the user's own changes come after the result, as next steps.
 - Start from the user's rule as the template, in the same shape as a backtest, with conditions written `{"column": ..., "operator": ..., "value": ...}`. When they named only "an RSI rule" or similar, use the common form: buy when RSI falls below a level, sell when it rises above 70.
 - Tune the two settings the rule depends on most, for example the RSI length from 7 to 21 and the buy level from 20 to 40.
@@ -17,7 +19,7 @@ A backtest whose settings were picked by looking at the same history will look b
 
 ## 2. Run it
 
-Call `start_walkforward`, and pass the user's own words as `question`: the report is titled by it. The call waits a little for the run: a run that finishes inside it answers with `result` and `report_url` at once. A longer run answers that it is still going; then call `get_walkforward_progress` with the task id. Each call waits for the run on QuanterLab's side, so call it again only when it answers that the run is still going.
+Call `start_walkforward`, and pass one sentence restating what the run should answer as `question` (not the user's message): it titles the report and is kept only as that. The call waits a little for the run: a run that finishes inside it answers with `result` and `report_url` at once. A longer run answers that it is still going; then call `get_walkforward_progress` with the task id. Each call waits for the run on QuanterLab's side, so call it again only when it answers that the run is still going.
 
 If QuanterLab answers that the job is bigger than one run does in full, it offers the nearest versions that fit: offer those, one tap each, rather than shrinking the job yourself.
 
