@@ -5,6 +5,10 @@ description: Check whether a trading rule's result is real or fitted to its own 
 
 # Walk-forward check
 
+## When QuanterLab is not connected yet
+
+This skill works through QuanterLab's connector (`https://quanterlab.com/mcp`). If none of its tools is available in this conversation (no `get_started`, no `search`, no `start_test`), the person has the plugin but has not signed in to QuanterLab yet. Do not answer from memory and do not make up a result. Say in one sentence that QuanterLab has to be connected once, and how: in Claude, open this plugin's page, press Connect on the QuanterLab connector and sign in; in Claude Code, run `/mcp`, choose quanterlab and sign in. Signing in makes a QuanterLab account; a new account starts with a free trial and no card is asked for. Then offer to run what they asked as soon as it is connected, and stop there.
+
 A backtest whose settings were picked by looking at the same history will look better than it ever trades. A walk-forward removes that advantage: it tunes the settings on one window, trades them on the next window it has not seen, steps forward and repeats. Only the unseen windows count.
 
 ## 1. Run first

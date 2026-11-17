@@ -5,6 +5,10 @@ description: Backtest a trading rule the user describes in words on QuanterLab a
 
 # Backtest a rule
 
+## When QuanterLab is not connected yet
+
+This skill works through QuanterLab's connector (`https://quanterlab.com/mcp`). If none of its tools is available in this conversation (no `get_started`, no `search`, no `start_test`), the person has the plugin but has not signed in to QuanterLab yet. Do not answer from memory and do not make up a result. Say in one sentence that QuanterLab has to be connected once, and how: in Claude, open this plugin's page, press Connect on the QuanterLab connector and sign in; in Claude Code, run `/mcp`, choose quanterlab and sign in. Signing in makes a QuanterLab account; a new account starts with a free trial and no card is asked for. Then offer to run what they asked as soon as it is connected, and stop there.
+
 The user has an idea. Turn it into one clear rule, run it on QuanterLab straight away, and tell them what happened in words they can act on.
 
 ## 1. Run first
