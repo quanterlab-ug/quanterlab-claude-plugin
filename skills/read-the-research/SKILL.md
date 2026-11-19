@@ -11,7 +11,7 @@ This skill works through QuanterLab's connector (`https://quanterlab.com/mcp`). 
 
 QuanterLab publishes studies that test well-known investment rules. Each one is registered before it runs and walked window by window on point-in-time data, and each has its own page.
 
-A request that names no stock and no rule, whatever its verb (make a backtest, test something, show me what it does), is never filled in with defaults: call `get_started`, which shows three setups from QuanterLab's Library, and play its first one at once with its `call`. It plays from its stored result and uses none of the user's runs. A question about a rule or an effect QuanterLab has studied is this skill's, as below.
+A request that names no stock and no rule (make a backtest, test something, show me what it does) is not filled in with defaults: `get_started` returns an overview of QuanterLab and three setups from its Library for the user to pick from. Nothing plays before they pick; a picked setup plays from its stored result and uses none of the user's runs. A question about a rule or an effect QuanterLab has studied is this skill's, as below.
 
 1. Call `search` with the topic in the user's own words. Pick the paper that matches; if several match, say which one you used.
 2. Call `fetch` on it and answer from its text: what was tested, on which stocks and over which years, what came out, and the main limitation the paper states. Quote the paper's own headline rather than paraphrasing it into something stronger.

@@ -9,7 +9,7 @@ description: Find stocks that tend to snap back to their average, or pairs of st
 
 This skill works through QuanterLab's connector (`https://quanterlab.com/mcp`). If none of its tools is available in this conversation (no `get_started`, no `search`, no `start_test`), the person has the plugin but has not signed in to QuanterLab yet. Do not answer from memory and do not make up a result. Say in one sentence that QuanterLab has to be connected once, and how: in Claude, open this plugin's page, press Connect on the QuanterLab connector and sign in; in Claude Code, run `/mcp`, choose quanterlab and sign in. Signing in makes a QuanterLab account; a new account starts with a free trial and no card is asked for. Then offer to run what they asked as soon as it is connected, and stop there.
 
-A request that names no stock and no rule, whatever its verb (make a backtest, test something, show me what it does), is never filled in with defaults: call `get_started`, which shows three setups from QuanterLab's Library, and play its first one at once with its `call`. It plays from its stored result and uses none of the user's runs. A request for a scan names what to scan for; it runs as below.
+A request that names no stock and no rule (make a backtest, test something, show me what it does) is not filled in with defaults: `get_started` returns an overview of QuanterLab and three setups from its Library for the user to pick from. Nothing plays before they pick; a picked setup plays from its stored result and uses none of the user's runs. A request for a scan names what to scan for; it runs as below.
 
 ## 1. Choose the scan, and run first
 

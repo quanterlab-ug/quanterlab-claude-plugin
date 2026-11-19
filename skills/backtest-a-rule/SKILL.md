@@ -13,7 +13,7 @@ The user has an idea. Turn it into one clear rule, run it on QuanterLab straight
 
 ## 1. Run first
 
-A request that names no stock and no rule, whatever its verb (make a backtest, test something, show me what it does), is never filled in with defaults: call `get_started`, which shows three setups from QuanterLab's Library, and play its first one at once with its `call`. It plays from its stored result and uses none of the user's runs.
+A request that names no stock and no rule (make a backtest, test something, show me what it does) is not filled in with defaults: `get_started` returns an overview of QuanterLab and three setups from its Library for the user to pick from. Nothing plays before they pick; a picked setup plays from its stored result and uses none of the user's runs.
 
 Ask nothing before the first run. What the request leaves open gets a sensible default:
 

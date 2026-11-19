@@ -13,7 +13,7 @@ A backtest whose settings were picked by looking at the same history will look b
 
 ## 1. Run first
 
-A request that names no stock and no rule, whatever its verb (make a backtest, test something, show me what it does), is never filled in with defaults: call `get_started`, which shows three setups from QuanterLab's Library, and play its first one at once with its `call`. It plays from its stored result and uses none of the user's runs. A walk-forward needs a rule: when there is none in the conversation and the user names none, that is such a request.
+A request that names no stock and no rule (make a backtest, test something, show me what it does) is not filled in with defaults: `get_started` returns an overview of QuanterLab and three setups from its Library for the user to pick from. Nothing plays before they pick; a picked setup plays from its stored result and uses none of the user's runs. A walk-forward needs a rule: when there is none in the conversation and the user names none, that is such a request.
 
 - Ask nothing before the first run. Run with sensible defaults and name them in one line with the result; the user's own changes come after the result, as next steps.
 - Start from the user's rule as the template, in the same shape as a backtest, with conditions written `{"column": ..., "operator": ..., "value": ...}`. When they named only "an RSI rule" or similar, use the common form: buy when RSI falls below a level, sell when it rises above 70.
