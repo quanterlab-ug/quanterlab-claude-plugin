@@ -6,13 +6,13 @@
     "url": "https://quanterlab.com"
   },
   "metadata": {
-    "description": "QuanterLab's plugin for Claude: test a rule in words against simply holding the stock, check it on years it never saw, run QuanterLab's studies, start a strategy live as a paper trade and read the published research."
+    "description": "QuanterLab's plugin for Claude: test a rule in words against simply holding the stock, check it on years it never saw, scan an index for candidates and start a strategy live as a paper trade."
   },
   "plugins": [
     {
       "name": "quanterlab",
       "source": ".",
-      "description": "Test trading rules in words, check them on years they never saw, run QuanterLab's studies, start a strategy live as a paper trade and read the published research, through your QuanterLab account.",
+      "description": "Test trading rules in words, check them on years they never saw, scan an index for candidates, run your saved strategies and start one live as a paper trade, through your QuanterLab account.",
       "category": "finance",
       "homepage": "https://quanterlab.com",
       "repository": "https://github.com/quanterlab-ug/quanterlab-claude-plugin",
