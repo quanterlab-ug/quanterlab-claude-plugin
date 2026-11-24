@@ -25,7 +25,7 @@ On Claude Code 2.1.275 or later one line does both:
 - "Is that result real or luck? Walk-forward it."
 - "Scan the NASDAQ 100 for mean-reverting stocks."
 - "Run my newest saved canvas strategy."
-- "Start that strategy live as a paper trade."
+- "Follow that strategy as a simulated paper trade."
 
 ## What's inside
 
@@ -36,7 +36,7 @@ On Claude Code 2.1.275 or later one line does both:
 
 The plugin runs nothing on your computer and stores nothing. Everything goes through the connector to your QuanterLab account at quanterlab.com: the rules you ask to test, and the tickers and their settings. Runs happen on QuanterLab's servers on past daily data. Results come back in words, with a few rounded figures for runs of a year or longer, and as a card in the chat that sets the result against simply holding the same stock; a scan names the stocks or pairs that passed and the closest misses. Each finished run has its full report on quanterlab.com, at a link that opens without a login.
 
-QuanterLab places no orders, connects to no broker and moves no money. Nothing it returns is investment advice.
+QuanterLab places no orders, connects to no broker and moves no money: a paper trade is simulated on live prices. Nothing it returns is investment advice.
 
 - Privacy policy: https://quanterlab.com/privacy-policy
 - Terms: https://quanterlab.com/terms-and-conditions

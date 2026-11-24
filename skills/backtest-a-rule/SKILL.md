@@ -1,64 +1,66 @@
 ---
 name: backtest-a-rule
-description: Backtest a trading rule the user describes in words on QuanterLab and say plainly whether it beat simply holding the stock. Use when the user wants to test, check or backtest a strategy on a stock or ETF, asks "would this have worked", or names a rule such as an RSI level, a moving-average crossover or a breakout on a ticker.
+description: Backtest a trading rule the user describes in words on QuanterLab and compare it with simply holding the same stock. Use when the user wants to test, check or backtest a strategy on a stock or ETF, asks "would this have worked", or names a rule such as an RSI level, a moving-average crossover or a breakout on a ticker.
 ---
 
 # Backtest a rule
 
-## When QuanterLab is not connected yet
+QuanterLab reports how a rule behaved on past market data. It is not investment advice, it places no orders, and a paper trade on QuanterLab is simulated.
 
-This skill works through QuanterLab's connector (`https://quanterlab.com/mcp`). If none of its tools is available in this conversation (no `get_started`, no `search`, no `start_test`), the person has the plugin but has not signed in to QuanterLab yet. Do not answer from memory and do not make up a result. Say in one sentence that QuanterLab has to be connected once, and how: in Claude, open this plugin's page, press Connect on the QuanterLab connector and sign in; in Claude Code, run `/mcp`, choose quanterlab and sign in. Signing in makes a QuanterLab account; a new account starts with a free trial and no card is asked for. Then offer to run what they asked as soon as it is connected, and stop there.
+## The connector
 
-The user has an idea. Turn it into one clear rule, run it on QuanterLab straight away, and tell them what happened in words they can act on.
+This skill works through QuanterLab's connector at `https://quanterlab.com/mcp`. When none of its tools is available in the conversation (no `get_started`, no `search`, no `start_test`), the connector is not connected yet, and there is no QuanterLab result to report. It is connected once: in Claude, from this plugin's page (Connect on the QuanterLab connector, then sign in); in Claude Code, with `/mcp`, then quanterlab.
 
-## 1. Run first
+## 1. The rule and its defaults
 
-A request that names no stock and no rule (make a backtest, test something, show me what it does) is not filled in with defaults: `get_started` returns an overview of QuanterLab and three setups from its Library for the user to pick from. Nothing plays before they pick; a picked setup plays from its stored result and uses none of the user's runs.
+`get_started` returns an overview of QuanterLab and three setups from its Library to choose from; a chosen setup plays from its stored result and uses none of the account's runs. It suits a request that names no stock and no rule.
 
-Ask nothing before the first run. What the request leaves open gets a sensible default:
+A rule has a ticker, an entry, an exit, a span of history, costs and a direction. When the request leaves one of them open, these are the defaults, and the result names the ones it used:
 
-- the ticker: a US stock or ETF, such as SPY or AAPL; SPY when a rule is named without a stock;
+- the ticker: a US stock or ETF, such as SPY or AAPL; SPY for a rule named without a stock;
 - the entry rule and the exit rule (an exit can be the opposite signal, a stop or a holding period);
-- the history: a span back from today, `2y`, `5y`, `10y` or `max` (the whole history held), never a start date; `10y` when none is named. For "since 2010", use `10y` or `max` and say which years the run covered. The connector runs daily bars only;
-- the costs: the default charges a spread on every trade;
+- the history: a span back from today, `2y`, `5y`, `10y` or `max` (the whole history held), never a start date; `10y` when none is named. "Since 2010" is `10y` or `max`, and the result says which years it covered. The connector runs daily bars only;
+- the costs: a spread charged on every trade;
 - the direction: long only, unless the user asks for short or both.
 
-Run with sensible defaults and name them in one line with the result, for example, for an RSI rule named without a stock: SPY, the last 10 years, buy when RSI(2) is below 10, sell when it is above 70, costs 0.1% a trade. The user's own changes come after the result, as next steps.
+For example, an RSI rule named without a stock runs as: SPY, the last 10 years, buy when RSI(2) is below 10, sell when it is above 70, costs 0.1% a trade.
 
-One of QuanterLab's ready tests on a stock or fund (mean reversion, trend following, momentum, buying the dip) runs with `start_test`, straight away: its card draws the test's circuit and lights each card as it runs.
+QuanterLab's ready tests on a stock or fund (mean reversion, trend following, momentum, buying the dip) run with `start_test`; the test's card draws its circuit and lights each card as it runs.
 
 A filter that must also hold on the day the entry fires goes in the confirmation slot. The common one is a trend filter: a two-day RSI pullback that buys only while the close is above its 100-day average is `confirmation_indicator` `{"id": "sma", "params": {"length": 100}}` and `confirmation_conditions` `[{"column": "close", "operator": ">", "value": "SMA_100"}]`.
 
-Use `list_indicators` to map the user's words to indicator ids, settings and the columns they compute, for example RSI with a length of 14 computes `RSI_14`, and MACD computes `MACD_12_26_9` (the line), `MACDh_12_26_9` (the histogram) and `MACDs_12_26_9` (the signal line). Write each condition as `{"column": ..., "operator": ..., "value": ...}`. If the rule needs something the catalog does not have, say so instead of approximating it quietly.
+`list_indicators` maps the user's words to indicator ids, settings and the columns they compute: RSI with a length of 14 computes `RSI_14`, and MACD computes `MACD_12_26_9` (the line), `MACDh_12_26_9` (the histogram) and `MACDs_12_26_9` (the signal line). Each condition is written `{"column": ..., "operator": ..., "value": ...}`. A rule that needs something the catalog does not have cannot be expressed exactly; an approximation of it tests a different rule.
 
-## 2. Run it
+## 2. The run
 
-Call `start_backtest` with the rule, and pass one sentence restating what the run should answer as `question` (not the user's message): it titles the report and is kept only as that. Say in one line that you used the backtester and why.
+`start_backtest` takes the rule and, as `question`, one sentence restating what the run should answer (not the user's message): it titles the report and is kept only as that.
 
-The call waits a little for the run: a run that finishes inside it answers with `result` and `report_url` at once. A longer run answers that it is still going; then call `get_backtest_progress` with the task id. Each call waits for the run on QuanterLab's side, so call it again only when it answers that the run is still going.
+The call waits a little for the run: a run that finishes inside it answers with `result` and `report_url`. A longer run answers that it is still going, with a task id for `get_backtest_progress`; each progress call waits for the run on QuanterLab's side, and a new call is useful only after one that says the run is still going.
 
-Every account has free runs every day; a refused call does not count, and `get_started` and every run's answer give today's count. With none of today's runs left (`list_my_running_tasks` gives `runs_left_today`, or a refusal says so), say when they come back instead of trying again. If the call is refused, read the refusal: it names what to change (a column the strategy does not compute lists the ones it does). Fix that once and run again; pass on any other refusal in its own words, without retrying in a loop.
+Runs count against the account's daily allowance. `get_started` and each run's answer give today's count, a refused call does not count, and `list_my_running_tasks` gives `runs_left_today`. With none left, a new run is refused until the allowance renews.
 
-## 3. Show it
+A refusal names what to change: a column the strategy does not compute comes back with the list of the ones it does. Other refusals carry their reason in their own words, and the same call sent again unchanged gets the same refusal.
 
-Where the host shows cards, the run shows in its own card: it follows the run and fills in by itself with the verdict, the figures, the chart, the report link and the next steps. Do not call `show_report_card` for it, and do not repeat what it shows. While it runs, say in one sentence what is running; never ask the user to come back, to wait or to check later. When the result is in, add one sentence on what it means and one caution that fits it (few trades, one stock, one period, or settings picked by eye).
+## 3. The result
 
-Where no card shows, answer in three parts:
+Where the host shows cards, the run has its own card: it follows the run and fills in by itself with the verdict, the figures, the chart, the report link and the next steps. `show_report_card` is not needed for such a run.
 
-- the result in one sentence against simply holding the same stock over the same years (and SPY when that differs). For a run of a year or longer, `result.figures` carries the rule's return and holding's return, the Sharpe ratio, the worst drop and the number of trades: put the two returns side by side;
-- `report_url`, the run written up as a QuanterLab report (it opens without a login);
-- the next steps below.
+Without a card, the result carries the same answer:
 
-`show_report_card` is for a report link that `summarize_workflow` or `save_workflow_result` answers with, or one the user pastes: call it once with that link.
+- the rule against simply holding the same stock over the same years (and SPY when that differs). For a run of a year or longer, `result.figures` carries the rule's return and holding's return, the Sharpe ratio, the worst drop and the number of trades;
+- `report_url`, the run written up as a QuanterLab report, which opens without a login;
+- `next_steps`.
 
-A finished run without `report_url` (its report could not be made) has its answer in `result`: give its headline, the figures that matter and its next steps. It has no card.
+`show_report_card` shows a report link that `summarize_workflow` or `save_workflow_result` answers with, or one the user pastes.
 
-Quote the figures as they come; they are rounded on purpose. Never add precision and never invent a figure that is missing: a run shorter than a year carries none.
+A finished run without `report_url` (its report could not be made) has its answer in `result`: its headline, its figures and its next steps. It has no card.
 
-If the result says the rule never traded, say exactly that: the run tells nothing about the rule yet. The usual cause is an entry that never matched; offer to loosen it or check it, rather than reading the flat result as a verdict on the idea.
+The figures come rounded on purpose. A run shorter than a year carries none.
 
-## 4. Offer the next steps
+A result that says the rule never traded tells nothing about the rule yet. The usual cause is an entry that never matched, and loosening or checking the entry is the way to learn more.
 
-Where the card shows, it offers its next steps as choices the user can tap: ask which one they want, without listing them again. Where no card shows, offer two or three concrete next steps to choose from, and ask which one they want. Take them from the card's or the result's `next_steps`, or from these: the same rule as a walk-forward (the walk-forward-check skill), the rule on another stock or period, or one setting changed.
+A single backtest has limits worth weighing: few trades, one stock, one period, and settings picked by looking at the same history.
 
-A result describes how a rule behaved on past data. It is not advice to trade.
+## 4. Next steps
+
+The card offers its next steps as choices the user can tap; without a card, `next_steps` in the result lists them. Common ones: the same rule as a walk-forward (the walk-forward-check skill), the rule on another stock or period, or one setting changed.

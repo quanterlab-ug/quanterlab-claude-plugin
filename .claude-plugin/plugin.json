@@ -1,8 +1,8 @@
 {
   "name": "quanterlab",
   "displayName": "QuanterLab",
-  "version": "1.2.7",
-  "description": "Test trading rules in words, check them on years they never saw, scan an index for candidates, run your saved strategies and start one live as a paper trade, through your QuanterLab account.",
+  "version": "1.2.8",
+  "description": "Test trading rules in words, check them on years they never saw, scan an index for candidates, run your saved strategies and follow one as a simulated paper trade, through your QuanterLab account.",
   "author": {
     "name": "QuanterLab",
     "url": "https://quanterlab.com"
@@ -14,5 +14,11 @@
   "privacyPolicyUrl": "https://quanterlab.com/privacy-policy",
   "termsOfServiceUrl": "https://quanterlab.com/terms-and-conditions",
   "license": "MIT",
-  "keywords": ["quant", "backtesting", "walk-forward", "trading-strategies", "finance"]
+  "keywords": [
+    "quant",
+    "backtesting",
+    "walk-forward",
+    "trading-strategies",
+    "finance"
+  ]
 }

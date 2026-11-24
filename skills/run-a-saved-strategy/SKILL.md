@@ -5,19 +5,23 @@ description: Run a strategy the user built and saved on the QuanterLab canvas an
 
 # Run a saved strategy
 
-## When QuanterLab is not connected yet
+QuanterLab reports how a strategy behaved on past market data. It is not investment advice, it places no orders, and a paper trade on QuanterLab is simulated.
 
-This skill works through QuanterLab's connector (`https://quanterlab.com/mcp`). If none of its tools is available in this conversation (no `get_started`, no `search`, no `start_test`), the person has the plugin but has not signed in to QuanterLab yet. Do not answer from memory and do not make up a result. Say in one sentence that QuanterLab has to be connected once, and how: in Claude, open this plugin's page, press Connect on the QuanterLab connector and sign in; in Claude Code, run `/mcp`, choose quanterlab and sign in. Signing in makes a QuanterLab account; a new account starts with a free trial and no card is asked for. Then offer to run what they asked as soon as it is connected, and stop there.
+## The connector
 
-A request that names no stock and no rule (make a backtest, test something, show me what it does) is not filled in with defaults: `get_started` returns an overview of QuanterLab and three setups from its Library for the user to pick from. Nothing plays before they pick; a picked setup plays from its stored result and uses none of the user's runs. A saved strategy is one the user names or asks for; this skill runs it as below.
+This skill works through QuanterLab's connector at `https://quanterlab.com/mcp`. When none of its tools is available in the conversation (no `get_started`, no `search`, no `start_test`), the connector is not connected yet, and there is no QuanterLab result to report. It is connected once: in Claude, from this plugin's page (Connect on the QuanterLab connector, then sign in); in Claude Code, with `/mcp`, then quanterlab.
 
-1. Call `list_my_primitives_projects`. It lists the user's saved projects, newest first. If the user named one, match it by name. If not, show the names as choices and ask which one; take the newest only if the user said so.
-2. Call `start_primitives_run` with that project's id, and pass one sentence restating what the run should answer as `question` (not the user's message): it titles the report and is kept only as that. The strategy runs as saved, at the date saved with it; it takes no settings. The call waits a little for the run: a run that finishes inside it answers with `result` and `report_url` at once. A longer run answers that it is still going; then call `get_primitives_run_progress` with the task id. Each call waits for the run on QuanterLab's side, so call it again only when it answers that the run is still going.
-3. Where the host shows cards, the run shows in its own card: the project's circuit, drawn as the lab draws it, lights up card by card as it runs, and the result appears under it. Do not call `show_report_card` for it, and do not repeat what it shows. While it runs, say in one sentence what is running; never ask the user to come back, to wait or to check later. Where no card shows, give `report_url`: the run written up as a report, with its curves, which opens without a login.
-4. Report from `result`, in one sentence where the card shows. Each branch of the project comes under its card name in `figures.branches`, with its dates, whether it beat simply holding what it trades over the same dates, its benchmark, and which branch ended ahead. A branch tested over a year or longer also carries its rounded return, the holding's return, Sharpe, worst drop and trades: quote them as given. A branch tested over less than a year carries no figures; say so instead of estimating them.
-5. `get_primitives_run_result` adds each result's tiers and any look-ahead warning, when the user asks for more.
-6. Where the card shows, it offers its next steps as choices the user can tap: ask which one they want, without listing them again. Where no card shows, offer two or three next steps to choose from, and ask which one they want. A lab run's next steps are changes made on the canvas, which `start_primitives_run` cannot pass: give `result.lab_url`, where the user opens the project, makes the change and saves it, then run it again with `start_primitives_run`.
+`get_started` returns an overview of QuanterLab and three setups from its Library to choose from, for a request that names no saved strategy.
 
-`show_report_card` is for a report link that `summarize_workflow` or `save_workflow_result` answers with, or one the user pastes: call it once with that link.
+## The run
 
-If a run is refused, pass the message on as written, without guessing the reason.
+1. `list_my_primitives_projects` lists the user's saved projects, newest first. A project the user named is matched by its name. When the user named none, the names are the choices to ask about; the newest is the one to run only when the user says so.
+2. `start_primitives_run` takes that project's id and, as `question`, one sentence restating what the run should answer (not the user's message): it titles the report and is kept only as that. The strategy runs as saved, at the date saved with it; it takes no settings. The call waits a little for the run: a run that finishes inside it answers with `result` and `report_url`. A longer run answers that it is still going, with a task id for `get_primitives_run_progress`; each progress call waits for the run on QuanterLab's side, and a new call is useful only after one that says the run is still going.
+3. Where the host shows cards, the run has its own card: the project's circuit, drawn as the lab draws it, lights up card by card as it runs, and the result appears under it. `show_report_card` is not needed for such a run. Without a card, `report_url` holds the run written up as a report with its curves, which opens without a login.
+4. In `result`, each branch of the project comes under its card name in `figures.branches`, with its dates, whether it beat simply holding what it trades over the same dates, its benchmark, and which branch ended ahead. A branch tested over a year or longer also carries its rounded return, the holding's return, Sharpe, worst drop and trades. A branch tested over less than a year carries no figures.
+5. `get_primitives_run_result` adds each result's tiers and any look-ahead warning.
+6. The card offers its next steps as choices the user can tap; without a card, `next_steps` in the result lists them. A lab run's next steps are changes made on the canvas, which `start_primitives_run` cannot pass: `result.lab_url` opens the project, where the user makes the change and saves it, and `start_primitives_run` then runs it again.
+
+`show_report_card` shows a report link that `summarize_workflow` or `save_workflow_result` answers with, or one the user pastes.
+
+A refused run's message says why it was refused.
